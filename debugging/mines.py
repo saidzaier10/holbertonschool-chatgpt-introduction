@@ -4,7 +4,7 @@ import os
 
 
 def clear_screen():
-    os.system('cls' if os.name == 'nt' else 'clear')
+    os.system("cls" if os.name == "nt" else "clear")
 
 
 class Minesweeper:
@@ -12,23 +12,23 @@ class Minesweeper:
         self.width = width
         self.height = height
         self.mines = set(random.sample(range(width * height), mines))
-        self.field = [[' ' for _ in range(width)] for _ in range(height)]
+        self.field = [[" " for _ in range(width)] for _ in range(height)]
         self.revealed = [[False for _ in range(width)] for _ in range(height)]
 
     def print_board(self, reveal=False):
         clear_screen()
-        print('  ' + ' '.join(str(i) for i in range(self.width)))
+        print("  " + " ".join(str(i) for i in range(self.width)))
         for y in range(self.height):
-            print(y, end=' ')
+            print(y, end=" ")
             for x in range(self.width):
                 if reveal or self.revealed[y][x]:
                     if (y * self.width + x) in self.mines:
-                        print('*', end=' ')
+                        print("*", end=" ")
                     else:
                         count = self.count_mines_nearby(x, y)
-                        print(count if count > 0 else ' ', end=' ')
+                        print(count if count > 0 else " ", end=" ")
                 else:
-                    print('.', end=' ')
+                    print(".", end=" ")
             print()
 
     def count_mines_nearby(self, x, y):
@@ -49,14 +49,22 @@ class Minesweeper:
             for dx in [-1, 0, 1]:
                 for dy in [-1, 0, 1]:
                     nx, ny = x + dx, y + dy
-                    if 0 <= nx < self.width and 0 <= ny < self.height and not self.revealed[ny][nx]:
+                    if (
+                        0 <= nx < self.width
+                        and 0 <= ny < self.height
+                        and not self.revealed[ny][nx]
+                    ):
+
                         self.reveal(nx, ny)
         return True
 
     def check_win(self):
         for y in range(self.height):
             for x in range(self.width):
-                if not self.revealed[y][x] and (y * self.width + x) not in self.mines:
+                if not self.revealed[y][x]
+                and (y * self.width + x)
+                not in self.mines:
+
                     return False
         return True
 
